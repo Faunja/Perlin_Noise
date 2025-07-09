@@ -1,4 +1,4 @@
-import pygame
+import pygame, copy
 from pygame.locals import *
 from User.define_user import User
 from User.define_controls import Controls
@@ -22,4 +22,4 @@ def event_handler():
 		if event.type == pygame.QUIT:
 			User.playing = False
 	
-	Perlinnoise.update_vectors()
+	Perlinnoise.update_map()

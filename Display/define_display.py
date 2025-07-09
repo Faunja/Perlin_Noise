@@ -17,9 +17,9 @@ class define_Display:
 		elif self.DisplayWidth > self.DisplayHeight:
 			self.DisplayOffset = [self.DisplayWidth - self.DisplayHeight, 0]
 
-		self.tileSize = int((self.DisplayHeight - self.DisplayOffset[1]) / (Perlinnoise.height + 1) / Perlinnoise.scale) * Perlinnoise.scale
+		self.tileSize = int((self.DisplayHeight - self.DisplayOffset[1]) / (Perlinnoise.height) / Perlinnoise.scale) * Perlinnoise.scale
 		if self.tileSize * Perlinnoise.width > self.DisplayWidth:
-			self.tileSize = int((self.DisplayWidth - self.DisplayOffset[1]) / (Perlinnoise.width + 1) / Perlinnoise.scale) * Perlinnoise.scale
+			self.tileSize = int((self.DisplayWidth - self.DisplayOffset[1]) / (Perlinnoise.width) / Perlinnoise.scale) * Perlinnoise.scale
 		self.tileOffset = [round((self.DisplayWidth - self.tileSize * Perlinnoise.width) / 2), round((self.DisplayHeight - self.tileSize * Perlinnoise.height) / 2)]
 		self.displayStats = False
 
@@ -40,9 +40,9 @@ class define_Display:
 		elif self.DisplayWidth > self.DisplayHeight:
 			self.DisplayOffset = [self.DisplayWidth - self.DisplayHeight, 0]
 
-		self.tileSize = int((self.DisplayHeight - self.DisplayOffset[1]) / (Perlinnoise.height + 1) / Perlinnoise.scale) * Perlinnoise.scale
+		self.tileSize = int((self.DisplayHeight - self.DisplayOffset[1]) / (Perlinnoise.height) / Perlinnoise.scale) * Perlinnoise.scale
 		if self.tileSize * Perlinnoise.width > self.DisplayWidth:
-			self.tileSize = int((self.DisplayWidth - self.DisplayOffset[1]) / (Perlinnoise.width + 1) / Perlinnoise.scale) * Perlinnoise.scale
+			self.tileSize = int((self.DisplayWidth - self.DisplayOffset[1]) / (Perlinnoise.width) / Perlinnoise.scale) * Perlinnoise.scale
 		self.tileOffset = [round((self.DisplayWidth - self.tileSize * Perlinnoise.width) / 2), round((self.DisplayHeight - self.tileSize * Perlinnoise.height) / 2)]
 
 		self.update_display(self.DisplayWidth, self.DisplayHeight, self.fullscreen)

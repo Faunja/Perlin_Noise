@@ -25,25 +25,16 @@ def display_noise():
 		yPosition = tileSize * y + yOffset
 		for x in range(Perlinnoise.width * Perlinnoise.scale):
 			xPosition = tileSize * x + xOffset
-			red = int(int(noise[y][x] < 0) * -noise[y][x] * 255)
-			blue = int(int(noise[y][x] >= 0) * noise[y][x] * 255)
-			pygame.draw.rect(Display.Display, (red, red + blue, blue), (xPosition, yPosition, tileSize, tileSize))
-
-def display_vectors():
-	vectors = Perlinnoise.vectors
-	xOffset = Display.tileOffset[0]
-	yOffset = Display.tileOffset[1]
-	tileSize = Display.tileSize
-	for y in range(Perlinnoise.height + 1):
-		yPosition = tileSize * y + yOffset
-		for x in range(Perlinnoise.width + 1):
-			xPosition = tileSize * x + xOffset
-			pygame.draw.circle(Display.Display, (255, 255, 255), (xPosition, yPosition), 5)
-			pygame.draw.line(Display.Display, (255, 255, 255), (xPosition, yPosition), (xPosition + tileSize / 2 * User.cos(vectors[y][x]), yPosition + tileSize / 2 * User.sin(vectors[y][x])), 5)
+			increase = abs(noise[y][x] * 255)
+			positive = int(int(noise[y][x] < 0) * -noise[y][x] * 255)
+			negative = int(int(noise[y][x] >= 0) * noise[y][x] * 255)
+			try:
+				pygame.draw.rect(Display.Display, (positive, negative + positive, negative), (xPosition, yPosition, tileSize, tileSize))
+			except:
+				pass
 
 def display_game():
 	Display.Display.fill((0, 0, 0))
 	display_noise()
 	if Display.displayStats:
-		display_vectors()
 		display_stats()
