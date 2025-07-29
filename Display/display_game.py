@@ -11,8 +11,19 @@ def draw_text(text, position, orientation = [0, 0], font = Display.font, color =
 	Display.Display.blit(text, position)
 
 def display_stats():
-	draw_text("FPS: "+str(int(User.affectiveFPS)), [0, 0], color = (60, 60, 255))
-	draw_text(str(int(Perlinnoise.segments))+" Segments", [0, 1], color = (60, 60, 255))
+	draw_text("FPS : "+str(int(User.affectiveFPS)), [0, 0], color = (60, 60, 255))
+	if Perlinnoise.changing == "Segments":
+		draw_text("Segments : "+str(int(Perlinnoise.segments)), [0, 1], color = (60, 255, 60))
+	else:
+		draw_text("Segments : "+str(int(Perlinnoise.segments)), [0, 1], color = (60, 60, 255))
+	if Perlinnoise.changing == "Layers":
+		draw_text("Layers : "+str(int(Perlinnoise.layers)), [0, 2], color = (60, 255, 60))
+	else:
+		draw_text("Layers : "+str(int(Perlinnoise.layers)), [0, 2], color = (60, 60, 255))
+	if Perlinnoise.changing == "Increase":
+		draw_text("Increasing : "+str(int(Perlinnoise.increase)), [0, 3], color = (60, 255, 60))
+	else:
+		draw_text("Increasing : "+str(int(Perlinnoise.increase)), [0, 3], color = (60, 60, 255))
 
 def display_grid():
 	xOffset = Display.tileOffset[0]
@@ -31,6 +42,17 @@ def display_grid():
 			except:
 				pygame.draw.rect(Display.Display, (0, 255, 0), (xPosition, yPosition, tileSize, tileSize))
 
+def display_vectors():
+	xOffset = Display.tileOffset[0]
+	yOffset = Display.tileOffset[1]
+	segmentSize = int(Display.tileSize / Perlinnoise.segments)
+	tileSize = int(Display.tileSize / Perlinnoise.scale) / 2
+	for y in range(1, Perlinnoise.segments):
+		yPosition = segmentSize * y + yOffset
+		for x in range(1, Perlinnoise.segments):
+			xPosition = segmentSize * x + xOffset
+			pygame.draw.circle(Display.Display, (255, 255, 255), (xPosition, yPosition), tileSize)
+
 def display_noise():
 	xOffset = Display.tileOffset[0]
 	yOffset = Display.tileOffset[1]
@@ -43,7 +65,7 @@ def display_noise():
 			positive = int(int(noise[y][x] < 0) * -noise[y][x] * 255)
 			negative = int(int(noise[y][x] >= 0) * noise[y][x] * 255)
 			try:
-				pygame.draw.rect(Display.Display, (positive, positive + negative, negative), (xPosition, yPosition, tileSize, tileSize))
+				pygame.draw.rect(Display.Display, (negative, positive, negative + positive), (xPosition, yPosition, tileSize, tileSize))
 			except:
 				pass
 
@@ -51,4 +73,5 @@ def display_game():
 	Display.Display.fill((0, 0, 0))
 	display_noise()
 	if Display.displayStats:
+		display_vectors()
 		display_stats()

@@ -55,40 +55,35 @@ class define_noise:
 		self.update_noise()
 
 class define_perlinnoise:
-	def __init__(self, layers, increase):
-		self.segments = 5
-		self.scale = 100
+	def update_layers(self):
 		self.noise = []
 		for y in range(self.scale):
 			self.noise.append([])
 			for x in range(self.scale):
 				self.noise[y].append(0)
+		for layer in range(self.layers):
+			if len(self.noiseLayers) <= layer:
+				self.noiseLayers.append(define_noise(self.segments + layer * self.increase, self.scale))
+			else:
+				self.noiseLayers[layer].segments = self.segments + layer * self.increase
+				self.noiseLayers[layer].update_vectors()
+				self.noiseLayers[layer].update_noise()
+			for y in range(self.scale):
+				for x in range(self.scale):
+					self.noise[y][x] += self.noiseLayers[layer].noise[y][x]
+		for y in range(self.scale):
+			for x in range(self.scale):
+				self.noise[y][x] /= self.layers
 
+	def __init__(self, layers, increase):
+		self.scale = 100
+
+		self.segments = 3
 		self.layers = layers
 		self.increase = increase
 		self.noiseLayers = []
-		for layer in range(self.layers):
-			self.noiseLayers.append(define_noise(self.segments + layer * self.increase, self.scale))
-			for y in range(self.scale):
-				for x in range(self.scale):
-					self.noise[y][x] += self.noiseLayers[layer].noise[y][x]
-		for y in range(self.scale):
-			for x in range(self.scale):
-				self.noise[y][x] /= self.layers
-	
-	def update_layers(self):
-		for y in range(self.scale):
-			for x in range(self.scale):
-				self.noise[y][x] = 0
-		for layer in range(self.layers):
-			self.noiseLayers[layer].segments = self.segments + layer * self.increase
-			self.noiseLayers[layer].update_vectors()
-			self.noiseLayers[layer].update_noise()
-			for y in range(self.scale):
-				for x in range(self.scale):
-					self.noise[y][x] += self.noiseLayers[layer].noise[y][x]
-		for y in range(self.scale):
-			for x in range(self.scale):
-				self.noise[y][x] /= self.layers
+		self.update_layers()
 
-Perlinnoise = define_perlinnoise(3, 2)
+		self.changing = "Segments"
+
+Perlinnoise = define_perlinnoise(2, 5)
