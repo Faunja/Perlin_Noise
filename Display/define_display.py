@@ -17,10 +17,8 @@ class define_Display:
 		elif self.DisplayWidth > self.DisplayHeight:
 			self.DisplayOffset = [self.DisplayWidth - self.DisplayHeight, 0]
 
-		self.tileSize = int((self.DisplayHeight - self.DisplayOffset[1]) / (Perlinnoise.height) / Perlinnoise.scale) * Perlinnoise.scale
-		if self.tileSize * Perlinnoise.width > self.DisplayWidth:
-			self.tileSize = int((self.DisplayWidth - self.DisplayOffset[1]) / (Perlinnoise.width) / Perlinnoise.scale) * Perlinnoise.scale
-		self.tileOffset = [round((self.DisplayWidth - self.tileSize * Perlinnoise.width) / 2), round((self.DisplayHeight - self.tileSize * Perlinnoise.height) / 2)]
+		self.tileSize = int((self.DisplayHeight - self.DisplayOffset[1]) / Perlinnoise.scale) * Perlinnoise.scale
+		self.tileOffset = [round((self.DisplayWidth - self.tileSize) / 2), round((self.DisplayHeight - self.tileSize) / 2)]
 		self.displayStats = False
 
 		self.update_display(self.DisplayWidth, self.DisplayHeight, self.fullscreen)
@@ -30,7 +28,7 @@ class define_Display:
 			self.Display = pygame.display.set_mode((DisplayWidth, DisplayHeight), pygame.RESIZABLE)
 		else:
 			self.Display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-		self.font = pygame.font.SysFont("impact", int(self.DisplayHeight / 32))
+		self.font = pygame.font.SysFont("impact", int(self.DisplayHeight / 24))
 
 	def change_displaySize(self, width, height):
 		self.DisplayWidth = width
@@ -40,10 +38,8 @@ class define_Display:
 		elif self.DisplayWidth > self.DisplayHeight:
 			self.DisplayOffset = [self.DisplayWidth - self.DisplayHeight, 0]
 
-		self.tileSize = int((self.DisplayHeight - self.DisplayOffset[1]) / (Perlinnoise.height) / Perlinnoise.scale) * Perlinnoise.scale
-		if self.tileSize * Perlinnoise.width > self.DisplayWidth:
-			self.tileSize = int((self.DisplayWidth - self.DisplayOffset[1]) / (Perlinnoise.width) / Perlinnoise.scale) * Perlinnoise.scale
-		self.tileOffset = [round((self.DisplayWidth - self.tileSize * Perlinnoise.width) / 2), round((self.DisplayHeight - self.tileSize * Perlinnoise.height) / 2)]
+		self.tileSize = int((self.DisplayHeight - self.DisplayOffset[1]) / Perlinnoise.scale) * Perlinnoise.scale
+		self.tileOffset = [round((self.DisplayWidth - self.tileSize) / 2), round((self.DisplayHeight - self.tileSize) / 2)]
 
 		self.update_display(self.DisplayWidth, self.DisplayHeight, self.fullscreen)
 	

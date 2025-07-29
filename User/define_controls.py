@@ -6,9 +6,7 @@ class define_Controls:
 		self.fullscreen = [pygame.K_F11, pygame.K_f]
 
 		self.changedisplayStats = [pygame.K_F3, pygame.K_q]
-		self.restartGame = [pygame.K_r]
-		self.togglegroupSearch = [pygame.K_LCTRL]
-		
-		self.keypressed = []
+		self.sizeUp = [pygame.K_w, pygame.K_UP]
+		self.sizeDown = [pygame.K_s, pygame.K_DOWN]
 
 Controls = define_Controls()
