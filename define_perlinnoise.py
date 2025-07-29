@@ -1,8 +1,9 @@
-import random
+import random, math
 from User.define_user import User
 
 class define_noise:
 	def update_vectors(self):
+		increase = 360 / 10 / User.affectiveFPS
 		for y in range(self.segments + 1):
 			if len(self.vectors) <= y:
 				self.vectors.append([])
@@ -10,19 +11,26 @@ class define_noise:
 				if len(self.vectors[y]) <= x:
 					self.vectors[y].append(random.randint(0, 359))
 				else:
-					self.vectors[y][x] += 360 / 10 / User.affectiveFPS
+					self.vectors[y][x] += increase
 					if self.vectors[y][x] >= 360:
 						self.vectors[y][x] = self.vectors[y][x] - 360
 	
 	def smooth_step(self, variable):
 		smooth = variable ** 2 * (3 - variable * 2)
 		if smooth < 0:
-			smooth = 0
+			return 0
 		if smooth > 1:
-			smooth = 1
+			return 1
 		return smooth
 
 	def update_noise(self):
+		vectors = []
+		for y in range(self.segments + 1):
+			vectors.append([])
+			for x in range(self.segments + 1):
+				vector = math.radians(self.vectors[y][x])
+				vectors[y].append([math.cos(vector), math.sin(vector)])
+
 		segmentScale = self.scale / self.segments
 		for column in range(self.scale):
 			y = self.smooth_step((column / segmentScale) % 1)
@@ -31,12 +39,12 @@ class define_noise:
 				x = self.smooth_step((row / segmentScale) % 1)
 				xVector = int(row / segmentScale)
 
-				topLeft = x * User.cos(self.vectors[yVector][xVector]) + y * User.sin(self.vectors[yVector][xVector])
-				topRight = -(1 - x) * User.cos(self.vectors[yVector][xVector + 1]) + y * User.sin(self.vectors[yVector][xVector + 1])
+				topLeft = x * vectors[yVector][xVector][0] + y * vectors[yVector][xVector][1]
+				topRight = -(1 - x) * vectors[yVector][xVector + 1][0] + y * vectors[yVector][xVector + 1][1]
 				top = (1 - x) * topLeft + x * topRight
 
-				bottomLeft = x * User.cos(self.vectors[yVector + 1][xVector]) - (1 - y) * User.sin(self.vectors[yVector + 1][xVector])
-				bottomRight = -(1 - x) * User.cos(self.vectors[yVector + 1][xVector + 1]) - (1 - y) * User.sin(self.vectors[yVector + 1][xVector + 1])
+				bottomLeft = x * vectors[yVector + 1][xVector][0] - (1 - y) * vectors[yVector + 1][xVector][1]
+				bottomRight = -(1 - x) * vectors[yVector + 1][xVector + 1][0] - (1 - y) * vectors[yVector + 1][xVector + 1][1]
 				bottom = (1 - x) * bottomLeft + x * bottomRight
 
 				product = (1 - y) * top + y * bottom
@@ -61,6 +69,7 @@ class define_perlinnoise:
 			self.noise.append([])
 			for x in range(self.scale):
 				self.noise[y].append(0)
+
 		for layer in range(self.layers):
 			if len(self.noiseLayers) <= layer:
 				self.noiseLayers.append(define_noise(self.segments + layer * self.increase, self.scale))

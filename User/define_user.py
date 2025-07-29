@@ -9,9 +9,4 @@ class define_User:
 		self.clock = pygame.time.Clock()
 		self.playing = True
 
-	def sin(self, degree):
-		return math.sin(math.radians(degree))
-	def cos(self, degree):
-		return math.cos(math.radians(degree))
-
 User = define_User()
